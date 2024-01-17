@@ -5,11 +5,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controler.Criptografia;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.management.remote.JMXPrincipal;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.Color;
@@ -87,11 +91,21 @@ public class JLogin extends JFrame {
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Criptografia criptografia = new Criptografia(passwordField.getText(), Criptografia.MD5);
+				System.out.println(criptografia.criptografar());
 				if (textFieldUsuario.getText() != null && !textFieldUsuario.getText().isEmpty()
-						&& passwordField.getText() != null && !passwordField.getText().isBlank()) {
-					JOptionPane.showConfirmDialog(btnNewButton, "Informações válidas");
+						&& passwordField.getText() != null && !passwordField.getText().isEmpty()) {
+					if (criptografia.criptografar().equals("E10ADC3949BA59ABBE56E057F20F883E")) {
+						JOptionPane.showMessageDialog(btnNewButton, "Informações válidas");
+						dispose();
+						JPrincipal jPrincipal = new JPrincipal();
+						jPrincipal.setLocationRelativeTo(jPrincipal);
+						jPrincipal.setVisible(true);
+					}
 				} else {
-					JOptionPane.showConfirmDialog(btnNewButton, "Verifique se as informações foram inseridas corretamente", "Aviso", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(btnNewButton,
+							"Verifique se as informações foram inseridas corretamente", "Aviso",
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
